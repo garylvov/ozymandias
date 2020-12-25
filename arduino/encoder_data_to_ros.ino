@@ -1,3 +1,4 @@
+//Gary Lvov, 12/24/2020
 #define input_left_A 20  //A-phase-left encoder
 #define input_left_B 21  //B-phase-left encoder
 
