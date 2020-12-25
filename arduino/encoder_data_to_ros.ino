@@ -49,7 +49,6 @@ void update_left() {
   else
   {
     counter_left ++;
-    
   }
 }
 
