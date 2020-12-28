@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ozymandias">
+
+  <!--central box properties-->
+  <xacro:property name="depthBox" value=".5" />
+  <xacro:property name="widthBox" value=".3" />
+  <xacro:property name="heightBox" value=".1" />
+  <!--wheel properties-->
+  <xacro:property name="radiusCylinder" value=".1" />
+  <xacro:property name="lengthCylinder" value=".05" />
+
+
+  <!--box body-->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="${depthBox} ${widthBox} ${heightBox}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 ${heightBox}"/>
+    </visual>
+  </link>
+
+  <!--algorithm for creating wheels and joints-->
+  <xacro:macro name="wheel" params="prefix x y">
+      <link name="${prefix}Wheel">
+        <visual>
+          <geometry>
+          	<cylinder length="${lengthCylinder}" radius="${radiusCylinder}"/>
+          </geometry>
+          <origin rpy="1.5707 0 0" xyz="0 0 0"/>
+        </visual>
+      </link>
+
+      <joint name="${prefix}WheelJoint" type="continuous">
+        <parent link="base_link"/>
+        <child link="${prefix}Wheel"/>
+        <axis xyz="0 ${((widthBox/2)+(lengthCylinder/2))} 0"/>
+        <origin xyz="${((depthBox/2)-radiusCylinder)*x} ${((widthBox/2)+(lengthCylinder/2))*y} ${heightBox}"/>
+      </joint>
+  </xacro:macro>
+
+  <!--Create wheels and joint to the main body using above algorithm-->
+  <xacro:wheel prefix="rightFront" x="1" y="-1"/>
+  <xacro:wheel prefix="leftFront" x="1" y="1"/>
+
+</robot>
