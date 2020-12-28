@@ -1,0 +1,9 @@
+<launch>
+	<node name="serial_node" pkg="rosserial_python" type="serial_node.py" 
+	args="/dev/ttyACM0" />
+
+	<node name="encoder_handler" pkg="ozymandias_pi" type="encoder_handler.py" />
+</launch>
+
+
+
