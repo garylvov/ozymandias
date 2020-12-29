@@ -8,6 +8,10 @@
   <!--wheel properties-->
   <xacro:property name="radiusCylinder" value=".1" />
   <xacro:property name="lengthCylinder" value=".05" />
+  <!--post to elevate sensor properties-->
+  <xacro:property name="depthPost" value=".1" />
+  <xacro:property name="widthPost" value=".1" />
+  <xacro:property name="heightPost" value=".1" />
 
 
   <!--box body-->
@@ -16,11 +20,21 @@
       <geometry>
         <box size="${depthBox} ${widthBox} ${heightBox}"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 ${heightBox}"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
   </link>
 
-  <!--algorithm for creating wheels and joints-->
+  <!--Post to elevate sensor-->
+  <link name="post">
+    <visual>
+      <geometry>
+        <box size="${depthPost} ${widthPost} ${heightPost}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+
+  <!--algorithm for creating wheels-->
   <xacro:macro name="wheel" params="prefix x y">
       <link name="${prefix}Wheel">
         <visual>
@@ -35,12 +49,26 @@
         <parent link="base_link"/>
         <child link="${prefix}Wheel"/>
         <axis xyz="0 ${((widthBox/2)+(lengthCylinder/2))} 0"/>
-        <origin xyz="${((depthBox/2)-radiusCylinder)*x} ${((widthBox/2)+(lengthCylinder/2))*y} ${heightBox}"/>
+        <origin xyz="${((depthBox/2)-radiusCylinder)*x} ${((widthBox/2)+(lengthCylinder/2))*y} ${(heightBox/-2)}"/>
       </joint>
   </xacro:macro>
 
   <!--Create wheels and joint to the main body using above algorithm-->
   <xacro:wheel prefix="rightFront" x="1" y="-1"/>
   <xacro:wheel prefix="leftFront" x="1" y="1"/>
+
+  <joint name="postToBodyJoint" type="fixed">
+    <parent link="base_link"/>
+    <child link="post"/>
+    <origin xyz="0 0 ${(heightBox/2)+(heightPost/2)}"/>
+  </joint>
+
+  <!-- need to make a placeholder link for the laser frame -->
+<link name="laser" />
+<joint name="laserToPost" type="fixed">
+    <parent link="post"/>
+    <child link="laser"/>
+    <origin rpy="0 0 3.1415" xyz="0 0 ${heightPost/2}"/>
+</joint>
 
 </robot>
