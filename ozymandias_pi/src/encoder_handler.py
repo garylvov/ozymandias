@@ -32,7 +32,9 @@ def left_pulses_to_velocity():
             vel.data *= conversion_factor
             previous_time = now
             previous_pulses = left_encoder_pulses
-        vel_pub.publish(vel)
+            #Check to prevent wildy erroneous values
+            if(-35 < int(vel.data) < 35):
+                vel_pub.publish(vel)
     
 def right_pulses_to_velocity():
     vel_pub = rospy.Publisher('right_vel', Float32, queue_size = 10)
@@ -41,14 +43,14 @@ def right_pulses_to_velocity():
     previous_pulses = right_encoder_pulses
 
     while not (rospy.is_shutdown()):
-        now = rospy.Time.now().to_nsec()
-        if(now - previous_time >= 1):
-            # velocity = Δ displacement / Δ time
+        now = rospy.Time.now().to_sec()
+        if(now - previous_time >= .25):
             vel.data = (right_encoder_pulses - previous_pulses) / (now - previous_time)
             vel.data *= conversion_factor
             previous_time = now
             previous_pulses = right_encoder_pulses
-        vel_pub.publish(vel)
+            if(-35 < int(vel.data) < 35):
+                vel_pub.publish(vel)
     
 def pulses_to_JointState():
     states_pub = rospy.Publisher('joint_states', JointState, queue_size = 10)
