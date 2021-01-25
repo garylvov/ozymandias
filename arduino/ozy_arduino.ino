@@ -7,41 +7,25 @@
 #define input_right_A 18  //A-phase-right encoder
 #define input_right_B 19  //B-phase-right encoder
 
-#define output_left_value 7
 #define output_left_A 6
 #define output_left_B 5
 
-#define output_right_value 2
 #define output_right_A 3
 #define output_right_B 4
 
 volatile int counter_left = 0;
 volatile int counter_right = 0;
 
+volatile int left_motor_speed = 0;
+volatile int right_motor_speed = 0;
 ros::NodeHandle nh;
 
 void left_motor_callback(const std_msgs::Int32& msg) {
-  if (msg.data >> 0) {
-    digitalWrite(output_left_A, HIGH);
-    digitalWrite(output_left_B, LOW);
-  }
-  else {
-    digitalWrite(output_left_A, LOW);
-    digitalWrite(output_left_B, HIGH);
-  }
-  analogWrite(output_left_value, abs(msg.data));
+  left_motor_speed = msg.data;
 }
 
 void right_motor_callback(const std_msgs::Int32& msg) {
-  if (msg.data >> 0) {
-    digitalWrite(output_right_A, HIGH);
-    digitalWrite(output_right_B, LOW);
-  }
-  else {
-    digitalWrite(output_right_A, LOW);
-    digitalWrite(output_right_B, HIGH);
-  }
-  analogWrite(output_right_value, abs(msg.data));
+  right_motor_speed = msg.data;
 }
 
 std_msgs::Int32 ros_counter_left;
@@ -58,10 +42,8 @@ void setup() {
   pinMode (input_left_A, INPUT_PULLUP);
   pinMode (input_left_B, INPUT_PULLUP);
 
-  pinMode(output_left_value, OUTPUT);
   pinMode(output_left_A, OUTPUT);
   pinMode(output_left_B, OUTPUT);
-  pinMode(output_right_value, OUTPUT);
   pinMode(output_right_A, OUTPUT);
   pinMode(output_right_B, OUTPUT);
 
@@ -80,6 +62,24 @@ void loop() {
   ros_counter_right.data = counter_right;
   left_encoder.publish(&ros_counter_left);
   right_encoder.publish(&ros_counter_right);
+
+  if (left_motor_speed > 0) {
+    analogWrite(output_left_A, 0);
+    analogWrite(output_left_B, abs(left_motor_speed));
+  }
+  else {
+    analogWrite(output_left_A, abs(left_motor_speed));
+    analogWrite(output_left_B, 0);
+  }
+
+  if (right_motor_speed > 0) {
+    analogWrite(output_right_A, abs(right_motor_speed));
+    analogWrite(output_right_B, 0);
+  }
+  else {
+    analogWrite(output_right_A, 0);
+    analogWrite(output_right_B, abs(right_motor_speed));
+  }
   nh.spinOnce();
 }
 
