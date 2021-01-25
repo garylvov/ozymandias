@@ -3,9 +3,11 @@
 Ozymandias is created with ROS. Ozymandias is meant to enable Teleop, Navigation, and SLAM from a differential drive and lidar.
 
 ## Three folders, Three machines
-**ozymandias** runs on a full desktop install of ROS Noetic, with many packages: the navigation stack, the differential drive package, the hector_slam package, and all required rosdeps.
+**ozymandias** runs on a full desktop install of ROS Noetic, with many packages: the navigation stack,the hector_slam package, and all required rosdeps.
 
-**ozymandias_pi** runs on a raspberry pi 4, using ROS Noetic "comm", with three additional packages: Rosserial, RPlidar and common_msgs.
+**ozymandias_pi** runs on a raspberry pi 4, using ROS Noetic built from source, with some additional packages: Rosserial, RPlidar, common_msgs, usb_cam, and all required rosdeps (except tf and rosbag migration. Using the rosdep tool says it needs these packages, but it should work without them.) 
+
+How to install noetic on pi https://varhowto.com/install-ros-noetic-raspberry-pi-4/
 
 **arduino** contains the script to load onto an arduino mega. The Rosserial libary needs to be added to the arduino IDE, which can be done through the library manager.
 
@@ -21,6 +23,6 @@ Wiring Schematic:
 
 https://docs.google.com/drawings/d/1u5N3b1Fn6B7iz71muJR3zRIVmPBXByMRte5-a001hI8/edit?usp=sharing
 
-# garylvov.com
+https://garylvov.com
 # YouTube Channel:
 https://www.youtube.com/channel/UCC3ApHQWzKKH0EaZwGiQIEA
