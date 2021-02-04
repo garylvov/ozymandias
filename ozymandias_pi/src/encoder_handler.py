@@ -26,7 +26,7 @@ def left_pulses_to_velocity():
 
     while not (rospy.is_shutdown()):
         now = rospy.Time.now().to_sec()
-        if(now - previous_time >= .25):
+        if(now - previous_time >= .75):
             # velocity = Δ displacement / Δ time
             vel.data = (left_encoder_pulses - previous_pulses) / (now - previous_time)
             vel.data *= conversion_factor
@@ -44,7 +44,7 @@ def right_pulses_to_velocity():
 
     while not (rospy.is_shutdown()):
         now = rospy.Time.now().to_sec()
-        if(now - previous_time >= .25):
+        if(now - previous_time >= .75):
             vel.data = (right_encoder_pulses - previous_pulses) / (now - previous_time)
             vel.data *= conversion_factor
             previous_time = now
