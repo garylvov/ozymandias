@@ -4,6 +4,7 @@ import threading
 from std_msgs.msg import Float32, Int32
 
 vel = 0
+desired = 20
 
 def vel_callback(msg):
     global vel
@@ -14,10 +15,10 @@ def handle_vel():
     command_speed = Int32()
     command_speed.data = 0
     while not (rospy.is_shutdown()):
-        if(vel < 10.00):
+        if(vel < desired):
             command_speed.data += 5
-        if(vel > 10.00):
-            command_speed.data -=5
+        if(vel > desired):
+            command_speed.data -= 5
         vel_pub.publish(command_speed)
         rate.sleep()
 if __name__=='__main__':
