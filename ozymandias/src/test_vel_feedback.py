@@ -21,6 +21,7 @@ def handle_vel():
             command_speed.data -= 5
         vel_pub.publish(command_speed)
         rate.sleep()
+        
 if __name__=='__main__':
     rospy.init_node('vel_test')
     vel_sub = rospy.Subscriber('left_vel', Float32, vel_callback)
