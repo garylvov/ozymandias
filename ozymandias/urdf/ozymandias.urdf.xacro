@@ -2,17 +2,16 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ozymandias">
 
   <!--central box properties-->
-  <xacro:property name="depthBox" value=".5" />
-  <xacro:property name="widthBox" value=".3" />
-  <xacro:property name="heightBox" value=".1" />
+  <xacro:property name="depthBox" value="0.1778" />
+  <xacro:property name="widthBox" value="0.1778" />
+  <xacro:property name="heightBox" value="0.00635" />
   <!--wheel properties-->
-  <xacro:property name="radiusCylinder" value=".1" />
-  <xacro:property name="lengthCylinder" value=".05" />
+  <xacro:property name="radiusCylinder" value="0.032512" />
+  <xacro:property name="lengthCylinder" value="0.026162" />
   <!--post to elevate sensor properties-->
-  <xacro:property name="depthPost" value=".1" />
-  <xacro:property name="widthPost" value=".1" />
-  <xacro:property name="heightPost" value=".1" />
-
+  <xacro:property name="depthPost" value="0.127" />
+  <xacro:property name="widthPost" value="0.1016" />
+  <xacro:property name="heightPost" value="0.05715" />
 
   <!--box body-->
   <link name="base_link">
@@ -49,7 +48,7 @@
         <parent link="base_link"/>
         <child link="${prefix}Wheel"/>
         <axis xyz="0 ${((widthBox/2)+(lengthCylinder/2))} 0"/>
-        <origin xyz="${((depthBox/2)-radiusCylinder)*x} ${((widthBox/2)+(lengthCylinder/2))*y} ${(heightBox/-2)}"/>
+        <origin xyz="${(depthBox/2)*x} ${((widthBox/2)+(lengthCylinder/2))*y} ${(heightBox/2)-radiusCylinder}"/>
       </joint>
   </xacro:macro>
 
@@ -60,7 +59,7 @@
   <joint name="postToBodyJoint" type="fixed">
     <parent link="base_link"/>
     <child link="post"/>
-    <origin xyz="0 0 ${(heightBox/2)+(heightPost/2)}"/>
+    <origin xyz="${depthPost/2+depthBox/2 - depthBox} 0 ${(heightBox/2)+(heightPost/2)}"/>
   </joint>
 
   <!-- need to make a placeholder link for the laser frame -->
@@ -68,7 +67,7 @@
 <joint name="laserToPost" type="fixed">
     <parent link="post"/>
     <child link="laser"/>
-    <origin rpy="0 0 3.1415" xyz="0 0 ${heightPost/2}"/>
+    <origin rpy="0 0 3.1415" xyz="${depthPost/-4} 0 ${heightPost/2 + 0.0381}"/>
 </joint>
 
 </robot>
