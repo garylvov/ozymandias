@@ -14,7 +14,7 @@ angular_vel = 0
 linear_vel = 0
 
 #Approximation of duty cycles correlating to rad/s
-#in rad/s-------5---6---7---8, etc.
+#in rad/s------------5---6---7---8, etc.
 left_approx_cycle = [32, 40, 48, 56, 64, 76, 84, 92, 100, 108, 120, 132, 140, 148, 156, 164, 172, 184, 196, 210, 220, 232, 244]
 right_approx_cycle = [32, 40, 48, 56, 64, 76, 84, 92, 100, 108, 120, 132, 140, 148, 156, 164, 172, 184, 196, 210, 220, 232, 244]
 
