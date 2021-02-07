@@ -4,19 +4,14 @@ from threading import Thread
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float32, Int32
 
-wheel_dist = 0.20955 #Distance between two wheels in meters
-wheel_radius = 0.032512 #in meters
+wheel_dist = 0.20955 #distance between two wheels
+wheel_radius = 0.032512
 
 left_vel = 0
 right_vel = 0
 
 angular_vel = 0
 linear_vel = 0
-
-#Approximation of duty cycles correlating to rad/s
-#in rad/s------------5---6---7---8, etc.
-left_approx_cycle = [32, 40, 48, 56, 64, 76, 84, 92, 100, 108, 120, 132, 140, 148, 156, 164, 172, 184, 196, 210, 220, 232, 244]
-right_approx_cycle = [32, 40, 48, 56, 64, 76, 84, 92, 100, 108, 120, 132, 140, 148, 156, 164, 172, 184, 196, 210, 220, 232, 244]
 
 def left_vel_callback(msg):
     global left_vel
@@ -32,12 +27,16 @@ def twist_callback(msg):
     linear_vel = msg.linear.x
 
 def handle_left():
+    #Approximation of duty cycles correlating to rad/s
+    #in rad/s-------------5---6---7---8, etc.
+    left_approx_cycle = [32, 40, 48, 56, 64, 76, 84, 92, 100, 108, 120, 132, 140, 148, 156, 164, 172, 184, 196, 210, 220, 232, 244]
     left_pub = rospy.Publisher('left_motor', Int32, queue_size = 10)
     command = Int32()
     while not (rospy.is_shutdown()):
         desired = (linear_vel - angular_vel * wheel_dist / 2) / wheel_radius
         if(desired != 0):
             index = (abs(int(desired)) - 5)
+            print(index)
             command.data = left_approx_cycle[index]
 
             if(abs(left_vel) < abs(desired)):
@@ -53,6 +52,7 @@ def handle_left():
         rate.sleep()
 
 def handle_right():
+        right_approx_cycle = [32, 40, 48, 56, 64, 76, 84, 92, 100, 108, 120, 132, 140, 148, 156, 164, 172, 184, 196, 210, 220, 232, 244]
         right_pub = rospy.Publisher('right_motor', Int32, queue_size = 10)
         command = Int32()
         while not (rospy.is_shutdown()):
