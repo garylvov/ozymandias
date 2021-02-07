@@ -4,8 +4,8 @@ from threading import Thread
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float32, Int32
 
-wheel_dist = 2 #distance between two wheels
-wheel_radius = 1
+wheel_dist = 0.20955 #Distance between two wheels in meters
+wheel_radius = 0.032512 #in meters
 
 left_vel = 0
 right_vel = 0
