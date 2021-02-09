@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#DOESN'T WORK WELL YET NEEDS HIGHER ADJUSTMENT RATE
 import rospy
 from threading import Thread
 from geometry_msgs.msg import Twist
