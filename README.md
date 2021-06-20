@@ -1,6 +1,6 @@
 # Overview
 
-Ozymandias is created with ROS. Ozymandias is meant to enable Teleop, Navigation, and SLAM from a differential drive and lidar.
+Ozymandias is created with ROS. Ozymandias is meant to enable Teleop, and SLAM from a differential drive and lidar.
 
 ## Three folders, Three machines
 **ozymandias** runs on a full desktop install of ROS Noetic, with many packages: the navigation stack, the hector_slam package, and all required rosdeps.
